@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Streamlit & local stuff
+.streamlit/secrets.toml
+.healthchecks/
+
+# Environment & credentials
+.env
+.env.*
+
+# Databases / data
+*.db
+*.sqlite
+data/
+
+# OS/Editor
+.DS_Store
+Thumbs.db
+.vscode/
