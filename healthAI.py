@@ -14,12 +14,25 @@ import hashlib
 import re
 
 load_dotenv()
+# Helper: get secrets from Streamlit Cloud or fallback to local .env
+def get_secret(key, default=None):
+    try:
+        import streamlit as st
+        if key in st.secrets:  # Cloud
+            return st.secrets[key]
+    except Exception:
+        pass
+    return os.getenv(key, default)  # Local
 
 # IBM Watsonx API configuration
-WATSONX_URL = os.getenv("WATSONX_URL")
-WATSONX_APIKEY = os.getenv("WATSONX_APIKEY")
-WATSONX_SPACE_ID = os.getenv("WATSONX_SPACE_ID")
-WATSONX_MODEL_ID = os.getenv("WATSONX_MODEL_ID")
+WATSONX_URL = get_secret("WATSONX_URL")
+WATSONX_APIKEY = get_secret("WATSONX_APIKEY")
+WATSONX_SPACE_ID = get_secret("WATSONX_SPACE_ID")
+WATSONX_MODEL_ID = get_secret("WATSONX_MODEL_ID")
+if not WATSONX_APIKEY:
+    st.error("⚠️ WATSONX_APIKEY is missing! Add it to Streamlit Secrets")
+    st.stop()
+
 
 # CSS Styling with better colors for chat readability
 def load_css():
