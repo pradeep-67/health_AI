@@ -33,7 +33,7 @@ if not WATSONX_APIKEY:
     st.error("⚠️ WATSONX_APIKEY is missing! Add it to Streamlit Secrets")
     st.stop()
 
-st.write("DEBUG - WATSONX_APIKEY:", bool(WATSONX_APIKEY))
+
 
 
 # CSS Styling with better colors for chat readability
