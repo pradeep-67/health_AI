@@ -414,7 +414,7 @@ Please format your response in a clear, structured way with headings for each se
 Response:"""
         )
 
-    def generate_chat_response(self, message: str, chat_history: str = "") -> str:
+   def generate_chat_response(self, message: str, chat_history: str = "") -> str:
     if not self.model:
         return "AI service is currently unavailable. Please try again later."
 
