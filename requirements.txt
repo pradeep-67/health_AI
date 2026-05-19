@@ -2,5 +2,5 @@ streamlit
 python-dotenv
 pandas
 plotly
-langchain
-langchain-ibm
+langchain==0.1.0
+langchain-ibm==0.1.0
