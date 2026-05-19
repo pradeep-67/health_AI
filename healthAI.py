@@ -377,9 +377,9 @@ class HealthAI:
         self.model = None
 
     def _create_chat_template(self):
-        return PromptTemplate(
-            input_variables=["user_question", "chat_history"],
-            template="""You are a Health AI assistant providing medical information and guidance.
+    return PromptTemplate(
+        input_variables=["user_question", "chat_history"],
+        template="""You are a Health AI assistant providing medical information and guidance.
 
 IMPORTANT: You are not a replacement for professional medical advice. Always recommend consulting healthcare professionals for serious concerns.
 
@@ -391,7 +391,7 @@ Current question: {user_question}
 Provide helpful, accurate health information while being empathetic and clear. Include relevant health tips and recommendations for a healthy lifestyle.
 
 Response:"""
-        )
+    )
 
     def _create_prediction_template(self):
         return PromptTemplate(
