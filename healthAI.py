@@ -366,20 +366,21 @@ class DatabaseManager:
         return chat
 
 # AI Integration Class
+# AI Integration Class
 class HealthAI:
-   def __init__(self):
-    try:
-        self.model = model
-        self.chat_template = self._create_chat_template()
-        self.prediction_template = self._create_prediction_template()
-    except Exception as e:
-        st.error(f"Error initializing AI: {str(e)}")
-        self.model = None
+    def __init__(self):
+        try:
+            self.model = model
+            self.chat_template = self._create_chat_template()
+            self.prediction_template = self._create_prediction_template()
+        except Exception as e:
+            st.error(f"Error initializing AI: {str(e)}")
+            self.model = None
 
     def _create_chat_template(self):
-    return PromptTemplate(
-        input_variables=["user_question", "chat_history"],
-        template="""You are a Health AI assistant providing medical information and guidance.
+        return PromptTemplate(
+            input_variables=["user_question", "chat_history"],
+            template="""You are a Health AI assistant providing medical information and guidance.
 
 IMPORTANT: You are not a replacement for professional medical advice. Always recommend consulting healthcare professionals for serious concerns.
 
@@ -391,7 +392,7 @@ Current question: {user_question}
 Provide helpful, accurate health information while being empathetic and clear. Include relevant health tips and recommendations for a healthy lifestyle.
 
 Response:"""
-    )
+        )
 
     def _create_prediction_template(self):
         return PromptTemplate(
@@ -414,37 +415,37 @@ Please format your response in a clear, structured way with headings for each se
 Response:"""
         )
 
-   def generate_chat_response(self, message: str, chat_history: str = "") -> str:
-    if not self.model:
-        return "AI service is currently unavailable. Please try again later."
+    def generate_chat_response(self, message: str, chat_history: str = "") -> str:
+        if not self.model:
+            return "AI service is currently unavailable. Please try again later."
 
-    try:
-        prompt = self.chat_template.format(
-            user_question=message,
-            chat_history=chat_history
-        )
+        try:
+            prompt = self.chat_template.format(
+                user_question=message,
+                chat_history=chat_history
+            )
 
-        response = self.model.generate_content(prompt)
-        return response.text.strip()
+            response = self.model.generate_content(prompt)
+            return response.text.strip()
 
-    except Exception as e:
-        return f"Sorry, there was an error processing your request: {str(e)}"
+        except Exception as e:
+            return f"Sorry, there was an error processing your request: {str(e)}"
 
-   def predict_condition(self, symptoms: str, patient_info: str) -> str:
-    if not self.model:
-        return "AI service is currently unavailable. Please try again later."
+    def predict_condition(self, symptoms: str, patient_info: str) -> str:
+        if not self.model:
+            return "AI service is currently unavailable. Please try again later."
 
-    try:
-        prompt = self.prediction_template.format(
-            symptoms=symptoms,
-            patient_info=patient_info
-        )
+        try:
+            prompt = self.prediction_template.format(
+                symptoms=symptoms,
+                patient_info=patient_info
+            )
 
-        response = self.model.generate_content(prompt)
-        return response.text.strip()
+            response = self.model.generate_content(prompt)
+            return response.text.strip()
 
-    except Exception as e:
-        return f"Sorry, there was an error processing your request: {str(e)}"
+        except Exception as e:
+            return f"Sorry, there was an error processing your request: {str(e)}"
 
 # Data Generation Utilities
 def generate_sample_health_data(patient_id: int, days: int = 30):
