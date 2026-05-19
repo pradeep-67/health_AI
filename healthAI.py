@@ -9,29 +9,34 @@ import json
 from typing import Dict
 import random
 from langchain_core.prompts import PromptTemplate
-from langchain_ibm import WatsonxLLM
+import google.generativeai as genai
 import hashlib
 import re
 
+# Load environment variables
 load_dotenv()
+
 # Helper: get secrets from Streamlit Cloud or fallback to local .env
 def get_secret(key, default=None):
     try:
-        import streamlit as st
-        if key in st.secrets:  # Cloud
+        if key in st.secrets:
             return st.secrets[key]
     except Exception:
         pass
-    return os.getenv(key, default)  # Local
+    return os.getenv(key, default)
 
-# IBM Watsonx API configuration
-WATSONX_URL = get_secret("WATSONX_URL")
-WATSONX_APIKEY = get_secret("WATSONX_APIKEY")
-WATSONX_SPACE_ID = get_secret("WATSONX_SPACE_ID")
-WATSONX_MODEL_ID = get_secret("WATSONX_MODEL_ID")
-if not WATSONX_APIKEY:
-    st.error("⚠️ WATSONX_APIKEY is missing! Add it to Streamlit Secrets")
+# Gemini API configuration
+GEMINI_API_KEY = get_secret("GEMINI_API_KEY")
+
+if not GEMINI_API_KEY:
+    st.error("⚠️ GEMINI_API_KEY is missing! Add it to Streamlit Secrets")
     st.stop()
+
+# Configure Gemini
+genai.configure(api_key=GEMINI_API_KEY)
+
+# Load Gemini model
+model = genai.GenerativeModel("gemini-1.5-flash")
 
 
 
