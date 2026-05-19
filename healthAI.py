@@ -367,24 +367,14 @@ class DatabaseManager:
 
 # AI Integration Class
 class HealthAI:
-    def __init__(self):
-        try:
-            self.llm = WatsonxLLM(
-                model_id=WATSONX_MODEL_ID,
-                url=WATSONX_URL,
-                apikey=WATSONX_APIKEY,
-                space_id=WATSONX_SPACE_ID,
-                params={
-                    "decoding_method": "greedy",
-                    "max_new_tokens": 500,
-                    "temperature": 0.7
-                }
-            )
-            self.chat_template = self._create_chat_template()
-            self.prediction_template = self._create_prediction_template()
-        except Exception as e:
-            st.error(f"Error initializing AI: {str(e)}")
-            self.llm = None
+   def __init__(self):
+    try:
+        self.model = model
+        self.chat_template = self._create_chat_template()
+        self.prediction_template = self._create_prediction_template()
+    except Exception as e:
+        st.error(f"Error initializing AI: {str(e)}")
+        self.model = None
 
     def _create_chat_template(self):
         return PromptTemplate(
@@ -425,32 +415,36 @@ Response:"""
         )
 
     def generate_chat_response(self, message: str, chat_history: str = "") -> str:
-        if not self.llm:
-            return "AI service is currently unavailable. Please try again later."
+    if not self.model:
+        return "AI service is currently unavailable. Please try again later."
 
-        try:
-            prompt = self.chat_template.format(
-                user_question=message,
-                chat_history=chat_history
-            )
-            response = self.llm(prompt)
-            return response.strip()
-        except Exception as e:
-            return f"Sorry, there was an error processing your request: {str(e)}"
+    try:
+        prompt = self.chat_template.format(
+            user_question=message,
+            chat_history=chat_history
+        )
 
-    def predict_condition(self, symptoms: str, patient_info: str) -> str:
-        if not self.llm:
-            return "AI service is currently unavailable. Please try again later."
+        response = self.model.generate_content(prompt)
+        return response.text.strip()
 
-        try:
-            prompt = self.prediction_template.format(
-                symptoms=symptoms,
-                patient_info=patient_info
-            )
-            response = self.llm(prompt)
-            return response.strip()
-        except Exception as e:
-            return f"Sorry, there was an error processing your request: {str(e)}"
+    except Exception as e:
+        return f"Sorry, there was an error processing your request: {str(e)}"
+
+   def predict_condition(self, symptoms: str, patient_info: str) -> str:
+    if not self.model:
+        return "AI service is currently unavailable. Please try again later."
+
+    try:
+        prompt = self.prediction_template.format(
+            symptoms=symptoms,
+            patient_info=patient_info
+        )
+
+        response = self.model.generate_content(prompt)
+        return response.text.strip()
+
+    except Exception as e:
+        return f"Sorry, there was an error processing your request: {str(e)}"
 
 # Data Generation Utilities
 def generate_sample_health_data(patient_id: int, days: int = 30):
