@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 import json
 from typing import Dict
 import random
-from langchain.prompts import PromptTemplate
+from langchain_core.prompts import PromptTemplate
 from langchain_ibm import WatsonxLLM
 import hashlib
 import re
